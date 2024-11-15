@@ -35,6 +35,7 @@ const outputTable = document.getElementById('output');
 
 // Add initial loading row
 const loadingRow = document.createElement('tr');
+loadingRow.id='loading'; //assign loading id
 loadingRow.innerHTML = `<td colspan="2">Loading...</td>`;
 outputTable.appendChild(loadingRow);
 
