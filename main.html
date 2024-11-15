@@ -29,5 +29,48 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+	<script>
+		// Select the table body
+const outputTable = document.getElementById('output');
+
+// Add initial loading row
+const loadingRow = document.createElement('tr');
+loadingRow.innerHTML = `<td colspan="2">Loading...</td>`;
+outputTable.appendChild(loadingRow);
+
+// Create 3 promises with random delays between 1 and 3 seconds
+const createPromise = (id) => {
+  const time = Math.random() * 2 + 1; // Random time between 1 and 3 seconds
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ id, time: time.toFixed(3) }), time * 1000);
+  });
+};
+
+const promises = [createPromise(1), createPromise(2), createPromise(3)];
+
+// Measure total time
+const startTime = performance.now();
+
+Promise.all(promises).then((results) => {
+  // Calculate total time
+  const endTime = performance.now();
+  const totalTime = ((endTime - startTime) / 1000).toFixed(3);
+
+  // Remove loading row
+  outputTable.innerHTML = '';
+
+  // Populate rows with results
+  results.forEach(({ id, time }) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>Promise ${id}</td><td>${time}</td>`;
+    outputTable.appendChild(row);
+  });
+
+  // Add total row
+  const totalRow = document.createElement('tr');
+  totalRow.innerHTML = `<td>Total</td><td>${totalTime}</td>`;
+  outputTable.appendChild(totalRow);
+});
+	</script>
   </body>
 </html>
